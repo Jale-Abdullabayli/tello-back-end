@@ -16,7 +16,7 @@ function sendProdError(err, req, res) {
     });
   } else {
     res.status(400).json({
-      success: false,.status(400)
+      success: false,
       message: "Ops! Something went wrong...",
     });
   }
