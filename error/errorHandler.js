@@ -10,13 +10,13 @@ function sendDevError(err, req, res, statusCode) {
 }
 function sendProdError(err, req, res) {
   if (err.Operational) {
-    res.json({
+    res.status(400).json({
       success: false,
       message: err.message,
     });
   } else {
-    res.json({
-      success: false,
+    res.status(400).json({
+      success: false,.status(400)
       message: "Ops! Something went wrong...",
     });
   }
