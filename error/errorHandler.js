@@ -36,8 +36,8 @@ const handleTokenError = (err) => {
 };
 
 function handleValidationError(err) {
-  const err = Object.values(err.errors).join(" ");
-  return new GlobalError(err, 400);
+  const errMessage = Object.values(err.errors).join(",");
+  return new GlobalError(errMessage, 400);
 }
 
 
