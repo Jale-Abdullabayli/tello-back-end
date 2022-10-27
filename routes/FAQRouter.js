@@ -5,7 +5,7 @@ const { privateRoute, access } = require("../middleware/privateRoute");
 
 
 router.get("/", FAQController.getAllFAQ);
-router.post("/", FAQController.createFAQ);
+router.post("/", privateRoute, access("admin"), FAQController.createFAQ);
 router.patch("/:id",privateRoute, access("admin"), FAQController.updateFAQ);
 router.delete("/:id",privateRoute, access("admin"), FAQController.deleteFAQ);
 

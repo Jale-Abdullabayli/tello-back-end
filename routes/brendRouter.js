@@ -5,7 +5,7 @@ const { privateRoute, access } = require("../middleware/privateRoute");
 
 
 router.get("/", brendController.getAllBrends);
-router.post("/", brendController.createBrend);
+router.post("/", privateRoute, access("admin"),brendController.createBrend);
 router.delete("/:id", privateRoute, access("admin"), brendController.deleteBrend);
 router.patch("/:id", privateRoute, access("admin"), brendController.updateBrend);
 

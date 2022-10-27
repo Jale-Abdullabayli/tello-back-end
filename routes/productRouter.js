@@ -9,7 +9,7 @@ router.use("/:productId/reviews", reviewRouter);
 
 
 router.get("/", productController.getAllProducts);
-router.post("/", upload.any(), privateRoute,access("admin"), productController.createProduct);
+router.post("/", privateRoute,access("admin"),  upload.any(),productController.createProduct);
 router.get("/price-range", productController.getPriceRange);
 router.get("/:id", productController.getOneProduct);
 router.delete("/:id", privateRoute, access("admin"), productController.deleteProduct);

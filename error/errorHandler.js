@@ -8,14 +8,14 @@ function sendDevError(err, req, res, statusCode) {
     stack: err.stack,
   });
 }
-function sendProdError(err, req, res) {
+function sendProdError(err, req, res,statusCode) {
   if (err.Operational) {
-    res.status(400).json({
+    res.status(statusCode).json({
       success: false,
       message: err.message,
     });
   } else {
-    res.status(400).json({
+    res.status(statusCode).json({
       success: false,
       message: "Ops! Something went wrong...",
     });
@@ -35,6 +35,11 @@ const handleTokenError = (err) => {
   return new GlobalError("Invalid Token", 403);
 };
 
+function handleValidationError(err) {
+  const err = Object.values(err.errors).join(" ");
+  return new GlobalError(err, 400);
+}
+
 
 module.exports = (err, req, res, next) => {
   const statusCode = err.statusCode || 500;
@@ -44,9 +49,10 @@ module.exports = (err, req, res, next) => {
   } else if (process.env.NODE_ENV === "production") {
     if (err.name === "CastError") {
       err = handlerCastError(err);
-    } 
+    }
+    else if (err.name === "ValidationError") err = handleValidationError(err);
     else if (err.name === "TokenExpiredError") err = handleTokenExpire(err);
     else if (err.name === "JsonWebTokenError") err = handleTokenError(err);
-    sendProdError(err, req, res);
+    sendProdError(err, req, res,statusCode);
   }
 };
